@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import toastr from "toastr";
-import * as courseAction from "../../action/CourseAction";
-import CourseList from "./CourseList";
+import * as courseAction from "../../actions/CourseAction";
+import CourseIndex from "../../components/Course/Index";
 
-export class CourseListContainer extends React.Component {
+export class IndexContainer extends React.Component {
   constructor() {
     super();
 
@@ -106,7 +106,7 @@ export class CourseListContainer extends React.Component {
 
         <div className="row">
           <div className="col">
-            <CourseList
+            <CourseIndex
               courses={courses}
               handleRowSelect={this.handleRowSelect}
             />
@@ -125,7 +125,7 @@ const mapDispatchToProps = dispatch => ({
   action: bindActionCreators(courseAction, dispatch)
 });
 
-CourseListContainer.propTypes = {
+IndexContainer.propTypes = {
   courses: PropTypes.array,
   action: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired
@@ -134,4 +134,4 @@ CourseListContainer.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CourseListContainer);
+)(IndexContainer);

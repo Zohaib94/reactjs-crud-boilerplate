@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
-import coursesReducer from "./coursesReducer";
-import selectedCourseReducer from "./selectedCourseReducer";
-import authorReducer from "./authorReducer";
-import apiReducer from "./apiReducer";
+import coursesReducer from "./CoursesReducer";
+import selectedCourseReducer from "./SelectedCourseReducer";
+import authorReducer from "./AuthorReducer";
+import apiReducer from "./ApiReducer";
 
 export default combineReducers({
   coursesReducer,

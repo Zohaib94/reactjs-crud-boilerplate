@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import toastr from "toastr";
-import * as courseAction from "../../action/CourseAction";
-import * as authorAction from "../../action/AuthorAction";
-import CourseForm from "./CourseForm"; // eslint-disable-line import/no-named-as-default
-import { authorsFormattedForDropdown } from "../../selectors/selectors"; // eslint-disable-line import/no-named-as-default
+import * as courseAction from "../../actions/CourseAction";
+import * as authorAction from "../../actions/AuthorAction";
+import CourseForm from "../../components/Course/Form"; // eslint-disable-line import/no-named-as-default
+import { authorsFormattedForDropdown } from "../../selectors/AuthorSelector"; // eslint-disable-line import/no-named-as-default
 
-export class AddOrEditCourseContainer extends React.Component {
+export class FormContainer extends React.Component {
   constructor() {
     super();
     this.handleSave = this.handleSave.bind(this);
@@ -94,7 +94,7 @@ const mapDispatchToProps = dispatch => ({
   action: bindActionCreators({ ...authorAction, ...courseAction }, dispatch)
 });
 
-AddOrEditCourseContainer.propTypes = {
+FormContainer.propTypes = {
   action: PropTypes.object.isRequired,
   history: PropTypes.object,
   authors: PropTypes.array,
@@ -105,4 +105,4 @@ AddOrEditCourseContainer.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddOrEditCourseContainer);
+)(FormContainer);

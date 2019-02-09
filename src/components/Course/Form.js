@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import FieldInput from "../common/FieldInput";
-import SelectInput from "../common/SelectInput";
+import FieldInput from "../Common/FieldInput";
+import SelectInput from "../Common/SelectInput";
 
 export const CourseForm = ({
   handleSubmit,
