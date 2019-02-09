@@ -33,6 +33,26 @@ const titleFormatter = (cell, row) => {
   return `<a href=${row.watchHref} target="_blank">${cell}</a>`;
 };
 
+const buttonFormatter = (cell, row, props) => {
+  return (
+    <div>
+      <button
+        className="btn btn-warning mr-2"
+        onClick={() => props.handleEditButton(row.id)}
+      >
+        <i className="fa fa-pencil" aria-hidden="true" /> Edit
+      </button>
+
+      <button
+        className="btn btn-danger"
+        onClick={() => props.handleDeleteButton(row.id)}
+      >
+        <i className="fa fa-trash" aria-hidden="true" /> Delete
+      </button>
+    </div>
+  );
+};
+
 class CourseList extends React.Component {
   constructor(props) {
     super(props);
@@ -40,14 +60,6 @@ class CourseList extends React.Component {
     this.options = {
       sortIndicator: true,
       noDataText: "No data"
-    };
-
-    this.selectRowProp = {
-      mode: "radio",
-      bgColor: "#c1f291",
-      onSelect: props.handleRowSelect,
-      clickToSelect: true,
-      hideSelectColumn: true
     };
   }
 
@@ -97,13 +109,11 @@ class CourseList extends React.Component {
         </TableHeaderColumn>
 
         <TableHeaderColumn
-          dataField="authorId"
-          dataSort={true}
-          caretRender={getCaret}
-          filter={{ type: "TextFilter", delay: 0 }}
-          columnTitle
+          dataField="button"
+          dataFormat={buttonFormatter}
+          formatExtraData={this.props}
         >
-          Author
+          Actions
         </TableHeaderColumn>
       </BootstrapTable>
     );
@@ -112,7 +122,8 @@ class CourseList extends React.Component {
 
 CourseList.propTypes = {
   courses: PropTypes.array.isRequired,
-  handleRowSelect: PropTypes.func.isRequired
+  handleDeleteButton: PropTypes.func.isRequired,
+  handleEditButton: PropTypes.func.isRequired
 };
 
 export default CourseList;

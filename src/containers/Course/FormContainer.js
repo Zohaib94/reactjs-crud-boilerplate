@@ -4,30 +4,10 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import toastr from "toastr";
 import * as courseAction from "../../actions/CourseAction";
-import * as authorAction from "../../actions/AuthorAction";
 import CourseForm from "../../components/Course/Form"; // eslint-disable-line import/no-named-as-default
-import { authorsFormattedForDropdown } from "../../selectors/AuthorSelector"; // eslint-disable-line import/no-named-as-default
 
 export class FormContainer extends React.Component {
-  constructor() {
-    super();
-    this.handleSave = this.handleSave.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.action
-      .getCourseAction(this.props.match.params.id)
-      .catch(error => {
-        toastr.error(error);
-      });
-
-    this.props.action.getAuthorsAction().catch(error => {
-      toastr.error(error);
-    });
-  }
-
-  handleSave(values) {
+  handleSave = values => {
     const course = {
       id: values.id,
       title: values.title,
@@ -37,21 +17,34 @@ export class FormContainer extends React.Component {
       category: values.category
     };
 
-    this.props.action
-      .saveCourseAction(course)
-      .then(() => {
-        toastr.success("Course saved");
-        this.props.history.push("/courses");
-      })
-      .catch(error => {
-        toastr.error(error);
-      });
-  }
+    if (course.id) {
+      this.props.action
+        .updateCourseAction(course)
+        .then(() => {
+          toastr.success("Course has been updated successfully!");
+          this.props.history.push("/courses");
+        })
+        .catch(error => {
+          toastr.error(error);
+        });
+    } else {
+      this.props.action
+        .createCourseAction(course)
+        .then(() => {
+          toastr.success("Course has been created successfully!");
+          this.props.history.push("/courses");
+        })
+        .catch(error => {
+          toastr.error(error);
+        });
+    }
+  };
 
-  handleCancel(event) {
+  handleCancel = event => {
     event.preventDefault();
+    this.props.action.resetCourseAction();
     this.props.history.replace("/courses");
-  }
+  };
 
   render() {
     const { initialValues } = this.props;
@@ -61,7 +54,6 @@ export class FormContainer extends React.Component {
       <div className="container">
         <CourseForm
           heading={heading}
-          authors={this.props.authors}
           handleSave={this.handleSave}
           handleCancel={this.handleCancel}
           initialValues={this.props.initialValues}
@@ -71,27 +63,13 @@ export class FormContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const courseId = ownProps.match.params.id; //from the path '/course/:id'
-
-  if (
-    courseId &&
-    state.selectedCourseReducer.course &&
-    courseId === state.selectedCourseReducer.course.id
-  ) {
-    return {
-      initialValues: state.selectedCourseReducer.course,
-      authors: authorsFormattedForDropdown(state.authorReducer.authors)
-    };
-  } else {
-    return {
-      authors: authorsFormattedForDropdown(state.authorReducer.authors)
-    };
-  }
-};
+const mapStateToProps = state => ({
+  courses: state.coursesReducer.courses,
+  initialValues: state.coursesReducer.course
+});
 
 const mapDispatchToProps = dispatch => ({
-  action: bindActionCreators({ ...authorAction, ...courseAction }, dispatch)
+  action: bindActionCreators(courseAction, dispatch)
 });
 
 FormContainer.propTypes = {

@@ -1,9 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 
-export const HeaderNavContainer = ({ apiCallsInProgress }) => {
+export const HeaderNavContainer = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <button
@@ -47,12 +45,4 @@ export const HeaderNavContainer = ({ apiCallsInProgress }) => {
   );
 };
 
-HeaderNavContainer.propTypes = {
-  apiCallsInProgress: PropTypes.number.isRequired
-};
-
-const mapStateToProps = state => ({
-  apiCallsInProgress: state.apiReducer.apiCallsInProgress
-});
-
-export default connect(mapStateToProps)(HeaderNavContainer);
+export default HeaderNavContainer;

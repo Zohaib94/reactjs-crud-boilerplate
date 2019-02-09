@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 import FieldInput from "../Common/FieldInput";
-import SelectInput from "../Common/SelectInput";
 
 export const CourseForm = ({
   handleSubmit,
@@ -10,7 +9,6 @@ export const CourseForm = ({
   reset,
   submitting,
   heading,
-  authors,
   handleSave,
   handleCancel
 }) => {
@@ -24,13 +22,6 @@ export const CourseForm = ({
         label="Title"
         placeholder="Title of the course"
         component={FieldInput}
-      />
-
-      <Field
-        name="authorId"
-        label="Author"
-        options={authors}
-        component={SelectInput}
       />
 
       <Field
@@ -53,17 +44,6 @@ export const CourseForm = ({
         <button type="submit" disabled={submitting} className="btn btn-primary">
           <i className="fa fa-paper-plane-o" aria-hidden="true" /> Submit
         </button>
-
-        {heading === "Add" && (
-          <button
-            type="button"
-            disabled={pristine || submitting}
-            onClick={reset}
-            className="btn btn-default btn-space"
-          >
-            Clear Values
-          </button>
-        )}
 
         <button
           type="button"
@@ -92,10 +72,6 @@ const validate = values => {
     errors.length = "Required";
   }
 
-  if (!values.authorId) {
-    errors.authorId = "Required";
-  }
-
   return errors;
 };
 
@@ -105,7 +81,6 @@ CourseForm.propTypes = {
   reset: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired,
   heading: PropTypes.string.isRequired,
-  authors: PropTypes.array.isRequired,
   handleSave: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired
 };

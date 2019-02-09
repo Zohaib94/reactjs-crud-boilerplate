@@ -7,52 +7,36 @@ import * as courseAction from "../../actions/CourseAction";
 import CourseIndex from "../../components/Course/Index";
 
 export class IndexContainer extends React.Component {
-  constructor() {
-    super();
-
-    this.state = { selectedCourseId: undefined };
-
-    this.handleAddCourse = this.handleAddCourse.bind(this);
-    this.handleEditCourse = this.handleEditCourse.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleRowSelect = this.handleRowSelect.bind(this);
-  }
-
   componentDidMount() {
     this.props.action.getCoursesAction().catch(error => {
       toastr.error(error);
     });
   }
 
-  handleAddCourse() {
-    this.props.history.push("/course");
-  }
+  handleAddCourse = () => {
+    this.props.action.resetCourseAction();
+    this.props.history.push("/course/new");
+  };
 
-  handleEditCourse() {
-    const selectedCourseId = this.state.selectedCourseId;
-
-    if (selectedCourseId) {
-      this.setState({ selectedCourseId: undefined });
-      this.props.history.push(`/course/${selectedCourseId}`);
+  handleEditCourse = courseId => {
+    if (courseId) {
+      this.props.action.getCourseAction(courseId);
+      this.props.history.push(`/course/${courseId}`);
     }
-  }
+  };
 
-  handleDelete() {
-    const selectedCourseId = this.state.selectedCourseId;
-
-    if (selectedCourseId) {
-      this.setState({ selectedCourseId: undefined });
-      this.props.action.deleteCourseAction(selectedCourseId).catch(error => {
-        toastr.error(error);
-      });
+  handleDeleteCourse = courseId => {
+    if (courseId) {
+      this.props.action
+        .deleteCourseAction(courseId)
+        .then(() => {
+          toastr.success("Course has been deleted successfully!");
+        })
+        .catch(error => {
+          toastr.error(error);
+        });
     }
-  }
-
-  handleRowSelect(row, isSelected) {
-    if (isSelected) {
-      this.setState({ selectedCourseId: row.id });
-    }
-  }
+  };
 
   render() {
     const { courses } = this.props;
@@ -79,27 +63,6 @@ export class IndexContainer extends React.Component {
               >
                 <i className="fa fa-plus" aria-hidden="true" /> New
               </button>
-
-              <button
-                type="button"
-                className="btn btn-warning ml-2"
-                onClick={this.handleEditCourse}
-              >
-                <i className="fa fa-pencil" aria-hidden="true" /> Edit
-              </button>
-
-              <button
-                type="button"
-                className="btn btn-danger ml-2"
-                onClick={this.handleDelete}
-              >
-                <i
-                  className="fa fa-trash-o"
-                  aria-hidden="true"
-                  onClick={this.handleDelete}
-                />{" "}
-                Delete
-              </button>
             </div>
           </div>
         </div>
@@ -108,7 +71,8 @@ export class IndexContainer extends React.Component {
           <div className="col">
             <CourseIndex
               courses={courses}
-              handleRowSelect={this.handleRowSelect}
+              handleDeleteButton={this.handleDeleteCourse}
+              handleEditButton={this.handleEditCourse}
             />
           </div>
         </div>
