@@ -1,28 +1,21 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import Spinner from '../common/Spinner';
 
 
 export const HeaderNavContainer = ({apiCallsInProgress}) => {
     return (
-        <nav className="navbar navbar-toggleable-sm bg-info navbar-inverse">
-            <div className="container">
-                <button className="navbar-toggler" data-toggle="collapse" data-target="#mainNav">
-                    <span className="navbar-toggler-icon" />
-                </button>
-
-                <div className="collapse navbar-collapse" id="mainNav">
-                    <div className="navbar-nav">
-                        <NavLink className="nav-item nav-link" exact activeClassName="active" to="/">Home</NavLink>
-                        <NavLink className="nav-item nav-link" activeClassName="active" to="/courses" >Courses</NavLink>
-                        <NavLink className="nav-item nav-link" activeClassName="active" to="/about">About</NavLink>
-
-                        <span className="ml-5">
-                            {apiCallsInProgress > 0 && <Spinner className="nav-item nav-link" interval={100} dots={20} />}
-                        </span>
-                    </div>
-                </div>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNav">
+                <ul className="navbar-nav">
+                    <NavLink className="nav-item nav-link" exact activeClassName="active" to="/">Home</NavLink>
+                    <NavLink className="nav-item nav-link" activeClassName="active" to="/courses" >Courses</NavLink>
+                    <NavLink className="nav-item nav-link" activeClassName="active" to="/about">About</NavLink>
+                </ul>
             </div>
         </nav>
     );
