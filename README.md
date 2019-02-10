@@ -8,3 +8,4 @@ Built upon https://github.com/ariesmcrae/reactjs-crud-boilerplate, However, foll
 * Established consistent file naming conventions
 * Removed Tests
 * Updated logic of actions being dispatched in case of CRUD Operations
+* Added redux-persist to persist application state.
