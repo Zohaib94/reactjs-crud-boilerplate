@@ -9,3 +9,4 @@ Built upon https://github.com/ariesmcrae/reactjs-crud-boilerplate, However, foll
 * Removed Tests
 * Updated logic of actions being dispatched in case of CRUD Operations
 * Added redux-persist to persist application state.
+* Added redux-logger in development environment only for better debugging.
